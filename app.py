@@ -1,4 +1,5 @@
-from flask import Flask, render_template,url_for
+from flask import Flask, render_template
+import requests
 
 app=Flask(__name__)
 
@@ -8,4 +9,9 @@ def index():
 
 @app.route('/productos')
 def productos():
-    return render_template('productos.html')
+    url='https://fakestoreapi.com/products'
+    response=requests.get(url)
+    data=response.json()
+    print(data)
+
+    return render_template('productos.html',data=data)
