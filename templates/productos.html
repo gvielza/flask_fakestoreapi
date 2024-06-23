@@ -8,18 +8,30 @@
     <title>Productos</title>
 </head>
 <body>
-
+<div class="container" id="menu_productos">
+    <div class="row align-items-center">
+        <div class="col-md-6">
+            <h1>Productos desde https://fakestoreapi.com/products</h1>
+        </div>
+        <div class="col-md-6 d-flex justify-content-end">
+            <img src="{{ url_for('static', filename='img/carro-vacio.png') }}" alt="Carrito" width="50" height="50">
+        </div>
+    </div>
+</div>
 <div class="container">
-    <h1>Productos desde https://fakestoreapi.com/products</h1>
+
+
 <div class="row">
 {% for item in data %}
     <div class="col-md-4 mb-4">
                     <div class="card">
-    <p>{{ item.title }} - {{ item.price }} </p>
+    <p>{{ item.title }} </p><p>Precio: {{ item.price }} </p>
 <img src="{{ item.image }}" alt="{{ item.title }}" width="200" height="200" >
-    <p>{{ item.count }}</p>
+    <p>Cantidad: {{ item.rating.count }}</p>
                         <form action='/carrito/{{ item.id }}' method="post">
                             <input type="hidden" name="id" value="{{ item.id }}" id="id">
+                            <input type="hidden" name="title" value="{{ item.title }}" id="title">
+                            <input type="hidden" name="image" value="{{ item.image }}" id="image">
                             <input type="submit" value="Agregar al carrito" id="boton_carrito" class="btn btn-primary">
                         </form>
 

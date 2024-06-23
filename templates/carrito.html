@@ -1,12 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Carrito</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de Compras</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .cart-container {
+            margin: 50px auto;
+            max-width: 800px;
+        }
+        .cart-item {
+            border-bottom: 1px solid #ddd;
+            padding: 20px 0;
+        }
+        .cart-total {
+            font-size: 1.5em;
+            font-weight: bold;
+            text-align: right;
+        }
+        .checkout-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2em;
+        }
+    </style>
 </head>
 <body>
-<h1>Carrito</h1>
-<p>Este es el carrito de la compra.</p>
-<p>Usted selecciono el objeto {{ id }}</p>
+
+<div class="container cart-container">
+    <h2 class="text-center">Carrito de Compras</h2>
+
+    <div class="cart-item">
+        <div class="row">
+            <div class="col-md-8">
+                <h4>{{ title }}</h4>
+                <p>Precio: </p>
+                <p>Cantidad: </p>
+            </div>
+            <div class="col-md-4 text-right">
+                <button class="btn btn-danger">Eliminar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="cart-total">
+        Total:
+    </div>
+
+    <button class="btn btn-success checkout-btn">Proceder al Pago</button>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

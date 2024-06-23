@@ -1,5 +1,6 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify, request
 import requests
+from productos_api import productos as prod
 
 app=Flask(__name__)
 
@@ -18,6 +19,13 @@ def productos():
 
 @app.route('/carrito/<int:id>', methods=['POST'])
 def carrito(id):
-    #id=requests.form.get('id')
-    print(id)
-    return render_template('carrito.html', id=id)
+    title=request.form.get('title')
+    image=request.form.get('image')
+    print(title)
+    print(image)
+    return render_template('carrito.html', id=id, title=title, image=image)
+
+
+@app.route("/api/productos/", methods=["GET"])
+def api():
+    return jsonify(prod)
