@@ -21,10 +21,18 @@ def productos():
 def carrito(id):
     title=request.form.get('title')
     image=request.form.get('image')
+    price=request.form.get('price')
+    cantidad=request.form.get('count')
     print(title)
     print(image)
-    return render_template('carrito.html', id=id, title=title, image=image)
+    print(price)
+    print(cantidad)
+    return render_template('carrito.html', id=id, title=title, image=image,price=price, cantidad=cantidad)
 
+
+@app.route('/carrito/eliminar/<int:id>', methods=['POST'])
+def eliminar(id):
+    return render_template('carrito.html', id=id)
 
 @app.route("/api/productos/", methods=["GET"])
 def api():

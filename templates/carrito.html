@@ -36,11 +36,13 @@
         <div class="row">
             <div class="col-md-8">
                 <h4>{{ title }}</h4>
-                <p>Precio: </p>
-                <p>Cantidad: </p>
+                <p>Precio: {{ price }}</p>
+                <p>Cantidad: {{ cantidad }}</p>
             </div>
             <div class="col-md-4 text-right">
-                <button class="btn btn-danger">Eliminar</button>
+                <form action='/carrito/eliminar/{{ id }}' method="post">
+                <button class="btn btn-danger" >Eliminar</button>
+                </form>
             </div>
         </div>
     </div>
@@ -50,6 +52,10 @@
     </div>
 
     <button class="btn btn-success checkout-btn">Proceder al Pago</button>
+    <form action='/productos' method="get">
+        <button class="btn btn-primary checkout-btn">Volver</button>
+    </form>
+
 </div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
