@@ -2,13 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <title>Inicio</title>
 </head>
 <body>
+<div class="container mt-5">
 <h1>Inicio</h1>
 <p>Este es el inicio de la aplicación.</p>
 
-<a href="{{ url_for('productos') }}" > Productos de https://fakestoreapi.com/products</a> <br>
-<a href="{{ url_for('api') }}">API obtenida desde un archivo .py con una lista de diccionario</a>
+<a href="{{ url_for('productos') }}" class="d-block mb-2"> Productos de https://fakestoreapi.com/products</a>
+<a href="{{ url_for('api') }}" class="d-block mb-2">API obtenida desde un archivo .py con una lista de diccionario</a>
+
+<a href="{{ url_for('spotify') }}" class="d-block mb-2">Spotify</a>
+    </div>
 </body>
 </html>

@@ -1,9 +1,20 @@
-from flask import Flask, render_template, jsonify, request
+import base64
+
+from flask import Flask, render_template, jsonify, request, session, redirect, url_for
 import requests
 from productos_api import productos as prod
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 app=Flask(__name__)
+app.secret_key=os.environ.get('SECRET_KEY')
 
+CLIENT_ID=os.environ.get('CLIENT_ID')
+CLIENT_SECRET=os.environ.get('CLIENT_SECRET')
+REDIRECT_URI = 'https://gvielza.pythonanywhere.com/callback'
+SCOPES = 'user-top-read'
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -37,3 +48,80 @@ def eliminar(id):
 @app.route("/api/productos/", methods=["GET"])
 def api():
     return jsonify(prod)
+
+@app.route("/spotify")
+def spotify():
+    print("Secret Key:", os.environ.get('SECRET_KEY'))
+    print("Client ID:", os.environ.get('CLIENT_ID'))
+    print("Client Secret:", os.environ.get('CLIENT_SECRET'))
+    return render_template('spotify.html')
+
+@app.route('/login')
+def login():
+    auth_url = (
+        'https://accounts.spotify.com/authorize'
+        '?response_type=code'
+        f'&client_id={CLIENT_ID}'
+        f'&scope={SCOPES}'
+        f'&redirect_uri={REDIRECT_URI}'
+    )
+    return redirect(auth_url)
+
+@app.route('/callback')
+def callback():
+    code = request.args.get('code')
+    token_url = 'https://accounts.spotify.com/api/token'
+    headers = {
+        'Authorization': 'Basic ' + base64.b64encode(f'{CLIENT_ID}:{CLIENT_SECRET}'.encode()).decode(),
+        'Content-Type': 'application/x-www-form-urlencoded'
+    }
+    data = {
+        'grant_type': 'authorization_code',
+        'code': code,
+        'redirect_uri': REDIRECT_URI
+    }
+    response = requests.post(token_url, headers=headers, data=data)
+    response_data = response.json()
+    session['access_token'] = response_data['access_token']
+    return redirect(url_for('top_artists'))
+
+@app.route('/top_artists')
+def top_artists():
+    access_token = session.get('access_token')
+    if not access_token:
+        return redirect(url_for('login'))
+
+    headers = {
+        'Authorization': f'Bearer {access_token}'
+    }
+    response = requests.get('https://api.spotify.com/v1/me/top/artists', headers=headers)
+    top_artists = response.json()
+    artists_list = """
+    <html>
+    <head>
+        <style>
+            ol {
+                list-style-type: none;
+                padding: 0;
+            }
+            li {
+                display: flex;
+                align-items: center;
+                margin-bottom: 10px;
+            }
+            img {
+                margin-right: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Mis artistas más escuchados</h1>
+        <ol>
+    """
+    for idx, artist in enumerate(top_artists['items'][:10], start=1):
+        artist_name = artist['name']
+        artist_image_url = artist['images'][0]['url'] if artist['images'] else ''
+        artists_list += f"<li>{idx}. <img src='{artist_image_url}' alt='{artist_name}' style='height:50px;'> {artist_name}</li>"
+    artists_list += "</ol></body></html>"
+    return artists_list
+
