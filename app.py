@@ -51,9 +51,6 @@ def api():
 
 @app.route("/spotify")
 def spotify():
-    print("Secret Key:", os.environ.get('SECRET_KEY'))
-    print("Client ID:", os.environ.get('CLIENT_ID'))
-    print("Client Secret:", os.environ.get('CLIENT_SECRET'))
     return render_template('spotify.html')
 
 @app.route('/login')
