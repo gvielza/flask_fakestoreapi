@@ -2,26 +2,60 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <title>Spotify Top Artists</title>
     <style>
         .full-height {
             height: 100vh;
         }
+
+        body, html {
+            height: 100%;
+            margin: 0;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+        .main-content {
+            flex: 1;
+        }
+        .mt-5 {
+            margin-top: 5rem;
+        }
+        .mb-5 {
+            margin-bottom: 5rem;
+        }
+        .mb-4 {
+            margin-bottom: 4rem;
+        }
+        .button-wrapper {
+            margin-bottom: 4rem;
+        }
     </style>
 </head>
 <body>
 {% include 'header.html' %}
+
     <div class="container d-flex flex-column align-items-center justify-content-center full-height">
         <form action="/login" method="get" class="text-center">
-            <h1>Spotify</h1>
-            <input type="submit" value="Mi Top Artistas" class="btn btn-primary mt-3">
+            <h1 class="text-center mt-5 mb-4 fs-1">Conoce tus artistas más escuchados en Spotify</h1>
+
+            <div class="button-wrapper">
+                <button class="mb-5">
+                    Mi Top Artistas
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
         </form>
-        <p class="text-center mt-3">Conoce tus artistas más escuchados en Spotify</p>
     </div>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% include 'footer.html' %}
 </body>
 </html>
