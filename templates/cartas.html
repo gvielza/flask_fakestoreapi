@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cartas</title>
+</head>
+<body>
+{% include 'header.html' %}
+<div class="container mt-5">
+        <h1 class="text-center">Cartas de Clash Royale</h1>
+        <div class="row">
+            {% for carta in cartas %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <img src="{{ carta['iconUrls']['medium'] }}" class="card-img-top" alt="{{ carta['name'] }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ carta['name'] }}</h5>
+                            <p class="card-text">Rarity: {{ carta['rarity'] }}</p>
+                            <p class="card-text">Elixir: {{ carta['elixirCost'] }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% if loop.index % 3 == 0 %}
+                    </div><div class="row">
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+{% include 'footer.html' %}
+</body>
+</html>

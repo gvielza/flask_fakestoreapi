@@ -163,4 +163,12 @@ button:hover{
 button:hover span{
     animation-play-state: paused;
 }
-
+.card{
+background-color:#D8DED8;
+}
+.card:hover{
+background-color:#f6e58d;
+}
+.boton_clash{
+background-color:#35A58D;
+}

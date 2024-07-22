@@ -15,6 +15,9 @@ CLIENT_ID=os.environ.get('CLIENT_ID')
 CLIENT_SECRET=os.environ.get('CLIENT_SECRET')
 REDIRECT_URI = 'https://gvielza.pythonanywhere.com/callback'
 SCOPES = 'user-top-read'
+
+api_key_clash_royale =os.environ.get('api_key_clash_royale')
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -121,4 +124,22 @@ def top_artists():
         artists_list += f"<li>{idx}. <img src='{artist_image_url}' alt='{artist_name}' style='height:50px;'> {artist_name}</li>"
     artists_list += "</ol></body></html>"
     return artists_list
+
+@app.route("/clash_royale")
+def clash_royale():
+    return render_template('clash_royale.html')
+
+@app.route("/cartas")
+def cartas():
+    url = 'https://api.clashroyale.com/v1/cards'
+    headers = {
+        'Authorization': f'Bearer {api_key_clash_royale}'
+    }
+    response = requests.get(url, headers=headers)
+
+    if response.status_code == 200:
+        data=response.json()
+        return render_template('cartas.html', cartas=data['items'])
+    else:
+        return jsonify({'error': 'No se pudieron obtener las cartas'}), response.status_code
 
