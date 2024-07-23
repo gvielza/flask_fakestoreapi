@@ -143,3 +143,12 @@ def cartas():
     else:
         return jsonify({'error': 'No se pudieron obtener las cartas'}), response.status_code
 
+
+@app.route('/obtener_ip')
+def obtener_ip():
+    try:
+        response = requests.get('https://api.ipify.org?format=json')
+        ip_data = response.json()
+        return jsonify(ip_data)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
