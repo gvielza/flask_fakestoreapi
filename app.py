@@ -129,19 +129,20 @@ def top_artists():
 def clash_royale():
     return render_template('clash_royale.html')
 
-@app.route("/cartas")
-def cartas():
+@app.route('/cartas')
+def obtener_cartas():
     url = 'https://api.clashroyale.com/v1/cards'
     headers = {
         'Authorization': f'Bearer {api_key_clash_royale}'
     }
-    response = requests.get(url, headers=headers)
-
-    if response.status_code == 200:
-        data=response.json()
+    try:
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()  # Esto lanzará una excepción si la respuesta tiene un código de error
+        data = response.json()
         return render_template('cartas.html', cartas=data['items'])
-    else:
-        return jsonify({'error': 'No se pudieron obtener las cartas'}), response.status_code
+    except requests.exceptions.RequestException as e:
+        app.logger.error(f'Error al obtener las cartas: {e}')
+        return jsonify({'error': 'No se pudieron obtener las cartas'}), 500
 
 
 @app.route('/obtener_ip')
