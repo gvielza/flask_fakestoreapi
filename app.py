@@ -153,3 +153,7 @@ def obtener_ip():
         return jsonify(ip_data)
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+@app.route('/mi_api')
+def mi_api():
+    return "Será mi API"
