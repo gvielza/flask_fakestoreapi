@@ -1,15 +1,21 @@
 import base64
+from datetime import timedelta
 
 from flask import Flask, render_template, jsonify, request, session, redirect, url_for
 import requests
 from productos_api import productos as prod
 from dotenv import load_dotenv
 import os
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required
+from marshmallow import Schema, fields, validate, ValidationError
+
 
 load_dotenv()
 
 app=Flask(__name__)
 app.secret_key=os.environ.get('SECRET_KEY')
+
+app.config['JWT_SECRET_KEY'] = os.environ.get('JWT_SECRET_KEY', 'default-secret-key')
 
 CLIENT_ID=os.environ.get('CLIENT_ID')
 CLIENT_SECRET=os.environ.get('CLIENT_SECRET')
@@ -154,6 +160,41 @@ def obtener_ip():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-@app.route('/mi_api')
+@app.route('/mi_api', methods=['GET'])
+@jwt_required()
 def mi_api():
-    return "Será mi API"
+    data={
+        'message':'Hola esta en mi API de productos',
+        'status':"success"
+    }
+    return jsonify(data)
+
+jwt = JWTManager(app)
+with app.app_context():
+    # Crear un token de acceso manualmente dentro del contexto de la aplicación
+    token = create_access_token(identity="user", expires_delta=timedelta(hours=1))
+    print(f"Token JWT: {token}")
+@app.route('/mi_api', methods=['POST'])
+@jwt_required()
+def mi_api_post():
+    if(request.is_json == True):
+        data = request.get_json()
+        response = {
+            'message': 'Datos Recibidos',
+            'status': 'success',
+            'data': data
+        }
+        print(data)
+        return jsonify(response), 200
+    else:
+        data = {
+            'message': 'No se recibieron datos',
+            'status': 'error'
+        }
+    return jsonify(data)
+
+
+
+
+
+
