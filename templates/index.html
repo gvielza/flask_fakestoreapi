@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <title>Inicio</title>
-     <style>
+    <style>
         body, html {
             height: 100%;
             margin: 0;
@@ -21,17 +21,20 @@
 <body>
 {% include 'header.html' %}
 <div class="container mt-5">
-<h1>Inicio</h1>
+    <h1>Inicio</h1>
 
-<a href="{{ url_for('productos') }}" class="d-block mb-2" target="_blank"> Productos de https://fakestoreapi.com/products</a>
-<a href="{{ url_for('api') }}" class="d-block mb-2" target="_blank">API obtenida desde un archivo .py con una lista de diccionario</a>
+    <a href="{{ url_for('productos') }}" class="d-block mb-2" target="_blank"> Productos de
+        https://fakestoreapi.com/products</a>
+    <a href="{{ url_for('api') }}" class="d-block mb-2" target="_blank">API obtenida desde un archivo .py con una lista
+        de diccionario</a>
 
-<a href="{{ url_for('spotify') }}" class="d-block mb-2" target="_blank">Mis cantantes en Spotify</a>
+    <a href="{{ url_for('spotify') }}" class="d-block mb-2" target="_blank">Mis cantantes en Spotify</a>
 
-<a href="{{ url_for('clash_royale') }}" class="d-block mb-2" target="_blank">Clash Royale</a>
+    <a href="{{ url_for('clash_royale') }}" class="d-block mb-2" target="_blank">Clash Royale</a>
 
-<a href="{{ url_for('mi_api') }}" class="d-block mb-2" target="_blank"> Mi API</a>
-    </div>
+    <a href="{{ url_for('mi_api') }}" class="d-block mb-2" target="_blank"> Mi API</a>
+    <a href="{{url_for('listar')}}" class="d-block mb-2" target="_blank">Tareas subidas desde mi notebook</a>
+</div>
 {% include 'footer.html' %}
 </body>
 </html>

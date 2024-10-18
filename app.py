@@ -3,11 +3,13 @@ from datetime import timedelta
 
 from flask import Flask, render_template, jsonify, request, session, redirect, url_for
 import requests
+from flask.cli import load_dotenv
+
 from productos_api import productos as prod
-from dotenv import load_dotenv
+#from dotpipenv import load_dotenv
 import os
-from flask_jwt_extended import JWTManager, create_access_token, jwt_required
-from marshmallow import Schema, fields, validate, ValidationError
+#from flask_jwt_extended import JWTManager, create_access_token, jwt_required
+#from marshmallow import Schema, fields, validate, ValidationError
 
 
 load_dotenv()
@@ -160,8 +162,18 @@ def obtener_ip():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+@app.route("/listar")
+def listar():
+    return render_template("listar.html")
+
+@app.route('/mi_api')
+def mi_api():
+    return "Mi API está funcionando"
+
+
+'''
 @app.route('/mi_api', methods=['GET'])
-@jwt_required()
+#@jwt_required()
 def mi_api():
     data={
         'message':'Hola esta en mi API de productos',
@@ -193,7 +205,7 @@ def mi_api_post():
         }
     return jsonify(data)
 
-
+'''
 
 
 
