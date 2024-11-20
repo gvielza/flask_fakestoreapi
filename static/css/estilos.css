@@ -1,3 +1,17 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    background-color: #5b6575; /* Cambia por el color que desees */
+    display: flex;
+    flex-direction: column;
+}
+body {
+    background-color: #d3d8e0 !important; /* Fuerza el color */
+}
+
+.main-content {
+    flex: 1;
+}
 .card {
             display: flex;
             flex-direction: column;
@@ -28,11 +42,7 @@
     margin: 0;
 }
 
-body {
-    display: flex;
-    flex-direction: column;
-    background-color: #D8DED8;
-}
+
 
 .main-content {
     flex: 1;
@@ -172,3 +182,4 @@ background-color:#f6e58d;
 .boton_clash{
 background-color:#35A58D;
 }
+
