@@ -1,12 +1,12 @@
 import base64
 from datetime import timedelta
 
-from flask import Flask, render_template, jsonify, request, session, redirect, url_for
+from flask import Flask, render_template, jsonify, request, session, redirect, url_for, session
 import requests
 from flask.cli import load_dotenv
 
 from productos_api import productos as prod
-#from dotpipenv import load_dotenv
+from dotenv import load_dotenv
 import os
 #from flask_jwt_extended import JWTManager, create_access_token, jwt_required
 #from marshmallow import Schema, fields, validate, ValidationError
@@ -30,6 +30,24 @@ api_key_clash_royale =os.environ.get('api_key_clash_royale')
 def index():
     return render_template('index.html')
 
+@app.before_request
+def initialize_cart():
+    if "cart" not in session:
+        session["cart"] = []
+
+@app.route('/agregar_carrito', methods=['POST'])
+def add_to_cart():
+    product = request.json.get("product")
+    if product:
+        # Verifica que el producto tenga los atributos correctos antes de agregarlo a la sesión
+        if all(key in product for key in ['id', 'title', 'price', 'image', 'quantity']):
+            session["cart"].append(product)  # Agrega el producto al carrito
+            session.modified = True
+            return jsonify({"message": "Producto agregado al carrito", "cart_count": len(session["cart"])})
+        else:
+            return jsonify({"error": "Producto incompleto"}), 400
+    return jsonify({"error": "No se pudo agregar el producto"}), 400
+
 @app.route('/productos')
 def productos():
     url='https://fakestoreapi.com/products'
@@ -39,17 +57,12 @@ def productos():
 
     return render_template('productos.html',data=data)
 
-@app.route('/carrito/<int:id>', methods=['POST'])
-def carrito(id):
-    title=request.form.get('title')
-    image=request.form.get('image')
-    price=request.form.get('price')
-    cantidad=request.form.get('count')
-    print(title)
-    print(image)
-    print(price)
-    print(cantidad)
-    return render_template('carrito.html', id=id, title=title, image=image,price=price, cantidad=cantidad)
+@app.route('/carrito', methods=['GET','POST'])
+def carrito():
+    cart = session.get("cart", [])
+    print(cart)
+    return render_template('carrito.html', cart=cart)
+
 
 
 @app.route('/carrito/eliminar/<int:id>', methods=['POST'])

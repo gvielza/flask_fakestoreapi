@@ -182,4 +182,14 @@ background-color:#f6e58d;
 .boton_clash{
 background-color:#35A58D;
 }
+.btn_carrito {
+    transform: none !important; /* Desactiva las transiciones */
+}
+#cart-count {
+    font-weight: bold;
+    text-align: center;
+    min-width: 20px;
+    min-height: 20px;
+    line-height: 20px;
+}
 

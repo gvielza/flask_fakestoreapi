@@ -29,31 +29,40 @@
 </head>
 <body>
 {% include 'header.html' %}
+
 <div class="container cart-container">
     <h2 class="text-center">Carrito de Compras</h2>
 
-    <div class="cart-item">
-        <div class="row">
-            <div class="col-md-8">
-                <h4>{{ title }}</h4>
-                <p>Precio: {{ price }}</p>
-                <p>Cantidad: {{ cantidad }}</p>
-            </div>
-            <div class="col-md-4 text-right">
-                <form action='/carrito/eliminar/{{ id }}' method="post">
-                <button class="btn btn-danger" >Eliminar</button>
-                </form>
+   {% if cart %}
+    {% for item in cart %}
+        <div class="cart-item">
+            <div class="row">
+                <div class="col-md-8">
+                    <h4>{{ item.title }}</h4>
+                    <p>Precio: ${{ item.precio }}</p>
+                    <p>{{ item.image }}</p>
+
+                    <img src="{{ item.image }}" width="200" />
+                </div>
+                <div class="col-md-4 text-right">
+                    <form action='/carrito/eliminar/{{ item.id }}' method="post">
+                        <button class="btn btn-danger">Eliminar</button>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-
+    {% endfor %}
     <div class="cart-total">
-        Total:
+        Total: ${{ cart | map(attribute='precio') | sum }}
     </div>
+{% else %}
+    <p>No hay productos en el carrito.</p>
+{% endif %}
 
-    <button class="btn btn-success checkout-btn">Proceder al Pago</button>
+
+
     <form action='/productos' method="get">
-        <button class="btn btn-primary checkout-btn">Volver</button>
+        <button class="btn btn-primary checkout-btn">Volver a Productos</button>
     </form>
 
 </div>
@@ -61,5 +70,6 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </body>
 </html>
